@@ -1,51 +1,68 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تبدیل عکس به سیاه و سفید</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>ویرایش تصویر آنلاین</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        #preview {
+            max-height: 400px; /* محدودیت 20cm تقریبی */
+            max-width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input[type="range"] {
+            width: 200px;
+        }
+    </style>
 </head>
 <body>
-<div style="display:flex; gap:20px;">
-  <div style="flex:3; max-width:20cm;">
-    <img id="preview" src="{{ url_for('static', filename='sample.jpg') }}" style="width:100%;">
-  </div>
-  <div style="flex:1; display:flex; flex-direction:column; gap:10px;">
-    <label>روشنایی</label>
-    <input type="range" id="brightness" min="-100" max="100" value="0">
-    <label>کنتراست</label>
-    <input type="range" id="contrast" min="50" max="300" value="100">
-    <label>گاما</label>
-    <input type="range" id="gamma" min="10" max="300" value="100">
-    <label>Blur</label>
-    <input type="range" id="blur" min="1" max="50" value="1">
-    <label>Sharpness</label>
-    <input type="range" id="sharp" min="0" max="300" value="0">
-    <label>Shadows</label>
-    <input type="range" id="shadows" min="-50" max="50" value="0">
-    <label>Highlights</label>
-    <input type="range" id="highlights" min="-50" max="50" value="0">
-  </div>
-</div>
 
-<script>
-const sliders = document.querySelectorAll('input[type="range"]');
-sliders.forEach(slider=>{
-  slider.addEventListener('input', ()=>{
-    const data = {};
-    sliders.forEach(s=>data[s.id]=s.value);
-    fetch('/update_preview',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(data)
-    })
-    .then(res=>res.blob())
-    .then(blob=>{
-      document.getElementById('preview').src=URL.createObjectURL(blob);
-    });
-  });
-});
-</script>
+    <!-- بخش پیش‌نمایش -->
+    <div>
+        <img id="preview" src="" alt="تصویر شما اینجا نشان داده می‌شود">
+        <br><br>
+        <input type="file" id="fileInput" accept="image/*">
+    </div>
+
+    <!-- بخش اسلایدرها -->
+    <div class="controls">
+        <label>روشنایی: <input type="range" id="brightness" min="-100" max="100" value="0"></label>
+        <label>کنتراست: <input type="range" id="contrast" min="-100" max="100" value="0"></label>
+        <label>سیاه‌ و سفید: <input type="range" id="bw" min="0" max="100" value="0"></label>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById("fileInput");
+        const preview = document.getElementById("preview");
+
+        // پیش‌نمایش عکس انتخاب شده
+        fileInput.addEventListener("change", () => {
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    preview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // TODO: اینجا باید fetch به Flask اضافه بشه
+        // هر بار که اسلایدر حرکت کرد تصویر پردازش‌شده رو از سرور بگیره
+    </script>
+
 </body>
 </html>
