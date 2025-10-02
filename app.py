@@ -29,6 +29,8 @@ def index():
     return render_template_string(HTML)
 
 if __name__ == "__main__":
-    # برای محیط توسعه یا زمانی که Render متغیر PORT می‌دهد
+    import os
     port = int(os.environ.get("PORT", 5000))
-    app.run(debug=True, host="0.0.0.0", port=port)
+    debug = os.environ.get("FLASK_DEBUG", "0") == "1"
+    app.run(debug=debug, host="0.0.0.0", port=port)
+
