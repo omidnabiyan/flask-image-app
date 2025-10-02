@@ -1,4 +1,112 @@
-body { font-family:'Tahoma', sans-serif; background:#f4f4f9; color:#333; text-align:center; padding:20px; }
-img { border-radius:8px; max-width:20cm; }
-input[type="range"] { margin:5px 0; width:100%; }
+:root{
+  --gap:16px;
+  --bg:#f7f7fb;
+  --card:#fff;
+  --muted:#666;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;padding:0;font-family:Tahoma, sans-serif;background:var(--bg);color:#222}
+.container{
+  display:flex;
+  gap:var(--gap);
+  padding:20px;
+  align-items:stretch;
+  height:calc(100vh - 40px); /* full visible area */
+}
 
+/* left: preview + buttons */
+.left-col{
+  flex:3;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  min-width:320px;
+  background:transparent;
+}
+
+/* preview wrapper keeps same height as sliders column via flexbox */
+.preview-wrap{
+  flex:1 1 auto;
+  background:var(--card);
+  border-radius:10px;
+  padding:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 2px 6px rgba(0,0,0,0.06);
+  overflow:hidden;
+}
+
+/* ensure image never taller than sliders column: height:100% of preview-wrap */
+.preview-wrap img{
+  max-height:100%;
+  max-width:100%;
+  object-fit:contain;
+  border-radius:8px;
+  display:block;
+}
+
+/* buttons sit under preview */
+.buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+}
+.file-btn{
+  background:#fff;
+  border:1px solid #ddd;
+  padding:8px 12px;
+  border-radius:6px;
+  cursor:pointer;
+}
+.file-btn input{ display:none; }
+
+button{
+  padding:8px 12px;
+  border-radius:6px;
+  border:1px solid #d0d0d0;
+  background:white;
+  cursor:pointer;
+}
+
+/* right: sliders column */
+.right-col{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-width:260px;
+  background:var(--card);
+  border-radius:10px;
+  padding:12px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.06);
+  overflow:hidden;
+}
+
+.sliders{
+  overflow:auto;
+  padding-right:6px;
+  /* ensure sliders scroll but the column height matches preview-wrap due to container align-items:stretch */
+}
+
+.slider-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:12px;
+}
+.slider-row label{
+  min-width:80px;
+  font-size:14px;
+}
+.slider-row input[type="range"]{
+  flex:1;
+}
+
+/* small responsive tweak */
+@media (max-width:900px){
+  .container{flex-direction:column;height:auto}
+  .left-col{order:1}
+  .right-col{order:2}
+  .preview-wrap{min-height:300px}
+}
