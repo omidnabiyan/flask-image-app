@@ -1,32 +1,28 @@
-from flask import Flask, request, send_file, render_template_string
-from PIL import Image
-import io
 import os
+from flask import Flask, render_template, request
+from PIL import Image
 
 app = Flask(__name__)
+UPLOAD_FOLDER = 'static/uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-HTML = """
-<!doctype html>
-<title>تست آپلود و تبدیل تصویر</title>
-<h1>یک تصویر انتخاب کن</h1>
-<form method=post enctype=multipart/form-data>
-  <input type=file name=file accept="image/*">
-  <input type=submit value="پردازش">
-</form>
-"""
-
-@app.route("/", methods=["GET", "POST"])
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    if request.method == "POST":
-        f = request.files.get("file")
-        if not f:
-            return "هیچ فایلی انتخاب نشده", 400
-        img = Image.open(f.stream).convert("L")  # سیاه‌وسفید
-        buf = io.BytesIO()
-        img.save(buf, format="PNG")
-        buf.seek(0)
-        return send_file(buf, mimetype="image/png", as_attachment=True, download_name="gray.png")
-    return render_template_string(HTML)
+    processed_image = None
+    if request.method == 'POST':
+        file = request.files['image']
+        if file:
+            img_path = os.path.join(UPLOAD_FOLDER, file.filename)
+            file.save(img_path)
+
+            # تبدیل به سیاه و سفید
+            img = Image.open(img_path).convert('L')
+            processed_path = os.path.join(UPLOAD_FOLDER, f'processed_{file.filename}')
+            img.save(processed_path)
+            
+            processed_image = f'uploads/processed_{file.filename}'
+
+    return render_template('index.html', processed_image=processed_image)
 
 if __name__ == "__main__":
     import os
