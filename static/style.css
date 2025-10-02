@@ -1,39 +1,8 @@
-body {
-    font-family: 'Tahoma', sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-    text-align: center;
-    padding: 50px;
-}
-
-.container {
-    max-width: 500px;
-    margin: auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-input[type="file"] {
-    margin: 20px 0;
-}
-
-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-img {
-    max-width: 100%;
-    border-radius: 8px;
-    margin-top: 20px;
-}
+body{font-family:Tahoma, sans-serif;background:#f4f4f9;color:#333;padding:20px}
+.container{max-width:960px;margin:8px auto;background:#fff;padding:20px;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+.upload-row{display:flex;gap:10px;align-items:center;margin-bottom:15px}
+.sliders-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}
+.slider-row{display:flex;flex-direction:column}
+.preview{margin-top:12px;text-align:center}
+button{background:#4CAF50;color:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer}
+button:active{transform:translateY(1px)}
