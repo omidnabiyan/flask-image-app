@@ -1,23 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تبدیل عکس به سیاه و سفید</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>تبدیل عکس به سیاه سفید — وب</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>تبدیل عکس به سیاه و سفید</h1>
-        <form method="POST" enctype="multipart/form-data">
-            <input type="file" name="image" required>
-            <button type="submit">تبدیل</button>
-        </form>
+  <div class="container">
+    <h1>تبدیل عکس به سیاه و سفید</h1>
 
-        {% if processed_image %}
-        <h2>نتیجه:</h2>
-        <img src="{{ url_for('static', filename=processed_image) }}" alt="Processed Image">
-        {% endif %}
+    <div class="upload-row">
+      <input id="fileInput" type="file" accept="image/*">
+      <button id="processBtn">پردازش</button>
+      <a id="downloadLink" style="display:none">دانلود تصویر</a>
     </div>
+
+    <div id="sliders" class="sliders-grid">
+      <!-- ساختار اسلایدرها: هر اسلایدر دارای data-name است -->
+      <div class="slider-row"><label>روشنایی</label><input type="range" data-name="brightness" min="-100" max="100" value="0"></div>
+      <div class="slider-row"><label>کنتراست</label><input type="range" data-name="contrast" min="50" max="300" value="100"></div>
+      <div class="slider-row"><label>گاما</label><input type="range" data-name="gamma" min="10" max="300" value="100"></div>
+      <div class="slider-row"><label>سطح سیاه</label><input type="range" data-name="black_level" min="-250" max="250" value="0"></div>
+      <div class="slider-row"><label>سطح سفید</label><input type="range" data-name="white_level" min="0" max="255" value="255"></div>
+      <div class="slider-row"><label>Local Contrast</label><input type="range" data-name="local_contrast" min="1" max="10" value="3"></div>
+      <div class="slider-row"><label>Blur</label><input type="range" data-name="blur" min="1" max="50" value="1"></div>
+      <div class="slider-row"><label>Tone</label><input type="range" data-name="tone" min="5" max="25" value="10"></div>
+      <div class="slider-row"><label>Shadows</label><input type="range" data-name="shadows" min="-50" max="50" value="0"></div>
+      <div class="slider-row"><label>Highlights</label><input type="range" data-name="highlights" min="-50" max="50" value="0"></div>
+      <div class="slider-row"><label>Sharp</label><input type="range" data-name="sharp" min="0" max="300" value="0"></div>
+      <div class="slider-row"><label>Sharp2</label><input type="range" data-name="sharp2" min="0" max="300" value="0"></div>
+    </div>
+
+    <div class="preview">
+      <h2>پیش‌نمایش</h2>
+      <img id="previewImg" src="" alt="preview" style="display:none;max-width:100%;">
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 </html>
