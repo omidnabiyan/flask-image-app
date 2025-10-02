@@ -39,6 +39,10 @@
 
     <!-- بخش اسلایدرها -->
     <div class="controls">
+          <form id="uploadForm" enctype="multipart/form-data">
+              <input type="file" id="imageInput" name="image" accept="image/*" required>
+          </form>
+        
         <label>روشنایی: <input type="range" id="brightness" min="-100" max="100" value="0"></label>
         <label>کنتراست: <input type="range" id="contrast" min="-100" max="100" value="0"></label>
         <label>سیاه‌ و سفید: <input type="range" id="bw" min="0" max="100" value="0"></label>
@@ -66,3 +70,4 @@
 
 </body>
 </html>
+
